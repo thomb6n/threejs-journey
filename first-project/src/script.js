@@ -25,7 +25,7 @@ const sizes = {
 };
 
 // Camera, the field of view is given vertically
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
+const camera = new THREE.PerspectiveCamera(55, sizes.width / sizes.height);
 camera.position.x = -1;
 camera.position.y = 0;
 camera.position.z = 3;
