@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "three": "^0.160.1",
+    "vite": "^5.0.12"
+  },
+  "name": "animation",
+  "version": "1.0.0",
+  "main": "vite.config.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
