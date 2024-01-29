@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "lil-gui": "^0.19.1",
+    "three": "^0.160.1",
+    "vite": "^5.0.12"
+  },
+  "name": "materials",
+  "version": "1.0.0",
+  "main": "vite.config.js",
+  "devDependencies": {},
+  "scripts": {
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
