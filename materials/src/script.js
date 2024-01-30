@@ -32,7 +32,7 @@ const sizes = {
 // scene.add(pointLight);
 
 // An environment map is an image for the surrounding scene, you can get some on PolyHaven
-// Like the lightning, it will be covered later, but is used here to see the effects on materials
+// Like the lighting, it will be covered later, but is used here to see the effects on materials
 const rgbeLoader = new RGBELoader();
 const environmentMap = rgbeLoader.load(
   "./textures/environmentMap/2k.hdr",
@@ -62,7 +62,7 @@ const matcapTexture = textureLoader.load("./textures/matcaps/1.png");
 matcapTexture.colorSpace = THREE.SRGBColorSpace;
 const gradientTexture = textureLoader.load("./textures/gradients/3.jpg");
 
-// MeshBasicMaterial is the most basic material thas has properties that all materials have
+// MeshBasicMaterial is the most basic material that has properties that all materials have
 const material = new THREE.MeshBasicMaterial({
   map: doorColorTexture,
   alphaMap: doorAlphaTexture,
@@ -98,7 +98,7 @@ phongMaterial.shininess = 1000;
 phongMaterial.specular = new THREE.Color(0x0000ff);
 
 // MeshToonMaterial has a cartoon effect, it's using something called cell shading often seen in games
-// You can add more steps to the defaylt two-part coloration, using a gradientMap and gradient texture
+// You can add more steps to the default two-part coloration, using a gradientMap and gradient texture
 const toonMaterial = new THREE.MeshToonMaterial();
 gradientTexture.minFilter = THREE.NearestFilter; // Requires disabling mipmapping
 gradientTexture.magFilter = THREE.NearestFilter; // Requires disabling mipmapping
