@@ -1,7 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import GUI from "lil-gui";
-import gsap from "gsap";
 
 import "./style.css";
 
@@ -23,18 +22,22 @@ const triggers = {};
 const canvas = document.querySelector("canvas.three");
 const scene = new THREE.Scene();
 
-const fog = new THREE.Fog("#002222", 1, 60);
+const fog = new THREE.Fog("#001111", 1, 60);
 scene.fog = fog;
 
-const moonLight = new THREE.DirectionalLight(0x7777ff, 1);
+const moonLight = new THREE.DirectionalLight(0x6666bb, 5);
 scene.add(moonLight);
+moonLight.castShadow = true;
 
 const moonLightHelper = new THREE.DirectionalLightHelper(moonLight);
 moonLight.position.y = 14;
 moonLight.position.z = 8;
 moonLight.position.x = 20;
 scene.add(moonLightHelper);
-moonLightHelper.visible = false;
+moonLight.shadow.mapSize.set(2024, 2024);
+moonLight.shadow.camera.near = 2.5;
+moonLight.shadow.camera.far = 20;
+moonLight.shadow.camera.fov = 100;
 
 const hemisphereLight = new THREE.HemisphereLight(
   variables.hemisphereSkyColor,
@@ -104,9 +107,12 @@ const ground = new THREE.Mesh(
 );
 ground.rotation.x += Math.PI * -0.5;
 scene.add(ground);
+ground.receiveShadow = true;
 
 const house = new THREE.Group();
 scene.add(house);
+house.castShadow = true;
+moonLight.lookAt(house);
 
 const houseBodyColorTexture = textureLoader.load(
   "/textures/walls/StoneBricksSplitface001_COL_2K.jpg"
@@ -156,6 +162,7 @@ const houseBody = new THREE.Mesh(
 );
 houseBody.position.y = 2.5;
 house.add(houseBody);
+house.castShadow = true;
 
 const houseHallBody = new THREE.Mesh(
   new THREE.CylinderGeometry(1.5, 1.5, 7.5, 5),
@@ -213,11 +220,13 @@ const leftWindowLight = new THREE.PointLight("#fbca24", 8, 5);
 leftWindowLight.position.set(-3.85 - 0.05, 3, 1);
 leftWindowLight.rotation.y = Math.PI * -0.5;
 house.add(leftWindowLight);
+leftWindowLight.castShadow = true;
 
 const frontWindowLight = new THREE.PointLight("#fbca24", 8, 5);
 frontWindowLight.position.set(2.5, 3, 2.4);
 frontWindowLight.rotation.y = Math.PI * -0.5;
 house.add(frontWindowLight);
+frontWindowLight.castShadow = true;
 
 const graves = new THREE.Group();
 scene.add(graves);
@@ -252,6 +261,7 @@ for (let i = 0; i < 40; i++) {
   const grave = new THREE.Mesh(graveGeometry, graveMaterial);
   const angle = Math.PI * 2 * Math.random();
   const radius = 7 + Math.random() * 20;
+  grave.castShadow = true;
 
   grave.position.x = Math.sin(angle) * radius;
   grave.position.z = Math.cos(angle) * radius;
@@ -264,6 +274,9 @@ for (let i = 0; i < 40; i++) {
 const ghost = new THREE.PointLight("#d4e3fe", 3, 5);
 const ghost2 = new THREE.PointLight("#d4e3fe", 3, 5);
 const ghost3 = new THREE.PointLight("#d4e3fe", 3, 5);
+ghost.castShadow = true;
+ghost2.castShadow = true;
+ghost3.castShadow = true;
 scene.add(ghost, ghost2, ghost3);
 
 const camera = new THREE.PerspectiveCamera(
@@ -284,7 +297,9 @@ controls.enableDamping = true;
 const renderer = new THREE.WebGLRenderer({ canvas });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(variables.sceneWidth, variables.sceneHeight);
-renderer.setClearColor("#002222");
+renderer.setClearColor("#001111");
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const clock = new THREE.Clock();
 
 const tick = () => {
