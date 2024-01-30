@@ -14,7 +14,7 @@ const gui = new GUI({
 const variables = {
   sceneHeight: window.innerHeight,
   sceneWidth: window.innerWidth,
-  hemisphereSkyColor: "#0088ff",
+  hemisphereSkyColor: "#0061ff",
   hemisphereGroundColor: "#bb0000",
 };
 
@@ -23,7 +23,7 @@ const triggers = {};
 const canvas = document.querySelector("canvas.three");
 const scene = new THREE.Scene();
 
-const moonLight = new THREE.DirectionalLight(0xaaaaff, 1);
+const moonLight = new THREE.DirectionalLight(0x7777ff, 1);
 scene.add(moonLight);
 
 const moonLightHelper = new THREE.DirectionalLightHelper(moonLight);
@@ -35,7 +35,7 @@ scene.add(moonLightHelper);
 const hemisphereLight = new THREE.HemisphereLight(
   variables.hemisphereSkyColor,
   variables.hemisphereGroundColor,
-  0.8
+  0.5
 );
 scene.add(hemisphereLight);
 
@@ -60,14 +60,14 @@ gui
 
 const textureLoader = new THREE.TextureLoader();
 
-const floor = new THREE.Mesh(
-  new THREE.PlaneGeometry(24, 24),
+const ground = new THREE.Mesh(
+  new THREE.PlaneGeometry(30, 36),
   new THREE.MeshStandardMaterial({
     color: 0x006622,
   })
 );
-floor.rotation.x += Math.PI * -0.5;
-scene.add(floor);
+ground.rotation.x += Math.PI * -0.5;
+scene.add(ground);
 
 const house = new THREE.Group();
 scene.add(house);
@@ -83,7 +83,7 @@ houseBody.position.y = 2.5;
 house.add(houseBody);
 
 const houseHallBody = new THREE.Mesh(
-  new THREE.BoxGeometry(2.5, 7.5, 2.5),
+  new THREE.CylinderGeometry(1.5, 1.5, 7.5, 5),
   houseBodyMaterial
 );
 houseHallBody.position.y = 3.75;
@@ -113,15 +113,62 @@ houseRoofRight.position.y = 7;
 houseRoofRight.rotation.y = Math.PI * 0.25;
 house.add(houseRoofRight);
 
-const hallRoof = new THREE.Mesh(new THREE.ConeGeometry(3, 3, 5), roofMaterial);
-hallRoof.position.y = 9;
-hallRoof.position.z = 3.75;
-hallRoof.position.x = -1;
-house.add(hallRoof);
+const houseHallRoof = new THREE.Mesh(
+  new THREE.ConeGeometry(2.5, 4, 5),
+  roofMaterial
+);
+houseHallRoof.position.y = 9.5;
+houseHallRoof.position.z = 3.75;
+houseHallRoof.position.x = -1;
+house.add(houseHallRoof);
+
+const houseWindowFront = new THREE.Mesh(
+  new THREE.PlaneGeometry(1, 2),
+  new THREE.MeshBasicMaterial({ color: 0xfbca24 })
+);
+houseWindowFront.position.set(2.5, 3, 2.5 + 0.05);
+house.add(houseWindowFront);
+
+const houseWindowLeft = new THREE.Mesh(
+  new THREE.PlaneGeometry(1, 2),
+  new THREE.MeshBasicMaterial({ color: 0xfbca24 })
+);
+houseWindowLeft.position.set(-4.03 - 0.05, 3, 1);
+houseWindowLeft.rotation.y = Math.PI * -0.5;
+house.add(houseWindowLeft);
+
+const leftWindowLight = new THREE.PointLight("#fbca24", 8, 5);
+leftWindowLight.position.set(-3.95 - 0.05, 3, 1);
+leftWindowLight.rotation.y = Math.PI * -0.5;
+house.add(leftWindowLight);
+
+const frontWindowLight = new THREE.PointLight("#fbca24", 8, 5);
+frontWindowLight.position.set(2.5, 3, 2.4);
+frontWindowLight.rotation.y = Math.PI * -0.5;
+house.add(frontWindowLight);
+
+const graves = new THREE.Group();
+scene.add(graves);
+
+const graveGeometry = new THREE.BoxGeometry(0.7, 1.4, 0.25);
+const graveMaterial = new THREE.MeshStandardMaterial({ color: 0x333333 });
+
+for (let i = 0; i < 20; i++) {
+  const grave = new THREE.Mesh(graveGeometry, graveMaterial);
+  const angle = Math.PI * 2 * Math.random();
+  const radius = 7 + Math.random() * 8;
+
+  grave.position.x = Math.sin(angle) * radius;
+  grave.position.z = Math.cos(angle) * radius;
+  grave.position.y = 0.5;
+  grave.rotation.y = Math.random() - 0.5;
+  grave.rotation.x = (Math.random() - 0.5) * 0.05;
+  graves.add(grave);
+}
 
 const camera = new THREE.PerspectiveCamera(
   45,
-  variables.sceneHeight / variables.sceneWidth,
+  variables.sceneWidth / variables.sceneHeight,
   0.01,
   100
 );
