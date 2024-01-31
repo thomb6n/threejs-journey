@@ -17,7 +17,11 @@ const gui = new GUI({
 const canvas = document.querySelector("canvas.three");
 const scene = new THREE.Scene();
 
-const camera = new THREE.OrthographicCamera();
+const camera = new THREE.PerspectiveCamera(
+  65,
+  variables.width / variables.height
+);
+camera.position.z = 3;
 scene.add(camera);
 
 const renderer = new THREE.WebGLRenderer({ canvas: canvas });
@@ -38,6 +42,7 @@ updateFrame();
 window.addEventListener("resize", (e) => {
   variables.height = e.target.window.innerHeight;
   variables.width = e.target.window.innerWidth;
+  camera.aspect = variables.width / variables.height;
 
   camera.updateProjectionMatrix();
 
