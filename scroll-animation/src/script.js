@@ -162,3 +162,5 @@ const gui = new GUI({
 gui.addColor(variables, "materialColor").onChange(() => {
   material.color.set(variables.materialColor);
 });
+
+gui.hide();
