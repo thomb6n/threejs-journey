@@ -141,6 +141,7 @@ updateFrame();
 window.addEventListener("resize", (e) => {
   variables.height = e.target.window.innerHeight;
   variables.width = e.target.window.innerWidth;
+  camera.aspect = variables.width / variables.height;
 
   camera.updateProjectionMatrix();
 
