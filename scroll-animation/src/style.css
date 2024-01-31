@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: #111;
+}
+
+.three {
+  position: fixed;
+  top: 0;
+  left: 0;
+  outline: none;
+}
+
+.section {
+  display: grid;
+  align-items: center;
+  gap: 6rem;
+  grid-template-columns: 1fr 1fr;
+  height: 100vh;
+  justify-content: space-between;
+  position: relative;
+  font-family: "Outfit", sans-serif;
+  color: #ffeded;
+  font-size: 7vmin;
+  padding-left: 10%;
+  padding-right: 10%;
+
+  p {
+    font-size: 3vmin;
+  }
+}
+
+section:nth-child(odd) {
+  p {
+    order: 0;
+  }
+
+  h2 {
+    order: 1;
+  }
+}
