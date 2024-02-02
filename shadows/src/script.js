@@ -102,7 +102,7 @@ spotLight.shadow.mapSize.set(1024, 1024);
 
 /**
 The lightcamera used to create the shadow map has the near and far properties
-You need to configure these to avoid shadow glitches and for optimalisation
+You need to configure these to avoid shadow glitches and for optimisation
 These also have helpers so you can easily find the good near and far
 You can also optimise things like the amplitude (top, left, bottom, right on orthographic cameras, fov on perspective cameras)
 */

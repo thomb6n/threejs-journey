@@ -9,13 +9,13 @@ import "./style.css";
 // Color (or albedo) texture is the most simple one, applied on the geometry
 // Alpha is a grayscale image where white is visible, black is invisible
 // Height (or displacement) is also a grayscale image, that moves the vertices to create relief, black goes down, white goes up
-// Normal, adds details, uses the RGB values of the image instead of vertices to affect lightning, simulates perceived depth, has better performances than adding height textures
+// Normal, adds details, uses the RGB values of the image instead of vertices to affect lighting, simulates perceived depth, has better performances than adding height textures
 // Ambient Occlusion, grayscale image, add fake shadows, not physically accurate, helps to create contrast
 // Metalness, grayscale image, white is metallic, black is not, mostly used for reflection
 // Roughness, grayscale image, often combined with metalness, white is rough, black is smooth, used for light dissipation
 
 // The textures (especially metalness and roughness) follow PBR principles, physically based rendering
-// It uses calculations that tries to simulate realistic lightning
+// It uses calculations that tries to simulate realistic lighting
 
 // UV unwrapping decides the way the texture is places on the geometry
 // Each vertex will have a 2D UV coordinate on a flat plane (usually a square)

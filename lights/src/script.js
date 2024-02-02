@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import "./style.css";
 
 /**
-Light can have a big impact on performance, so try to be careful when adding lightning
+Light can have a big impact on performance, so try to be careful when adding lighting
 The AmbientLight and HemisphereLight are the most performant, then the DirectionalLight and PointLight
 The SpotLight and RectAreaLight are the less performant lights
 
@@ -24,7 +24,7 @@ const axesHelper = new THREE.AxesHelper(1);
 scene.add(axesHelper);
 
 /**
-AmbientLight applies omnidirectional lightning
+AmbientLight applies omnidirectional lighting
 In real life light bounces off of other things, but is hard to create digitally
 That's why we can use ambient light to simulate light bouncing with a dim light
 */
