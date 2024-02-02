@@ -47,9 +47,12 @@ directionalLight.position.x = 0;
 directionalLight.position.z = 0;
 directionalLight.position.y = 25;
 directionalLight.castShadow = true;
-directionalLight.shadow.camera.near = 0.01;
-directionalLight.shadow.camera.far = 2000;
-directionalLight.shadow.camera.fov = 2800;
+directionalLight.shadow.camera.near = 0;
+directionalLight.shadow.camera.far = 30;
+directionalLight.shadow.camera.left = 20;
+directionalLight.shadow.camera.top = 20;
+directionalLight.shadow.camera.bottom = -20;
+directionalLight.shadow.camera.right = -20;
 directionalLight.scale.set(10, 10, 10);
 scene.add(directionalLight);
 
@@ -60,6 +63,10 @@ const directionalLightHelper = new THREE.DirectionalLightHelper(
 );
 scene.add(directionalLightHelper);
 directionalLightHelper.visible = false;
+
+const cameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera);
+scene.add(cameraHelper);
+cameraHelper.visible = false;
 
 // Creating our physics world
 const world = new CANNON.World();
