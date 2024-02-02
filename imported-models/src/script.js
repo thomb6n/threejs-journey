@@ -120,7 +120,9 @@ Draco is not exclusive to glTF but got popular at the same time
 Google develops the algorithm under an open source license
 
 You can use a WebAssembly decoder by copying the draco folder from three/examples/jsm/libs/draco
-This isn't necessary but it is way faster
+
+Draco compression has lighter geometries, but it does have to load the decoder and the loader class
+It also takes time to decode a compressed file
 */
 dracoLoader.setDecoderPath("/draco/");
 gltfLoader.setDRACOLoader(dracoLoader);
@@ -128,13 +130,41 @@ gltfLoader.load(
   "models/Duck/glTF-Draco/Duck.gltf",
   (model) => {
     console.log("model loaded");
-    scene.add(model.scene);
+    //scene.add(model.scene);
   },
   () => {
     console.log("model loading");
   },
   (err) => {
     console.error(err);
+  }
+);
+
+let mixer;
+
+gltfLoader.load(
+  "models/Fox/glTF/Fox.gltf",
+  (gltf) => {
+    // Models can also contain animations, composed of multiple AnimationClips (similar to keyframes)
+    // An AnimationMixer can be used to play these clips
+    mixer = new THREE.AnimationMixer(gltf.scene);
+
+    // Then we create an AnimationAction from one of the AnimationClips
+    const idle = mixer.clipAction(gltf.animations[0]);
+    const walk = mixer.clipAction(gltf.animations[1]);
+    const run = mixer.clipAction(gltf.animations[2]);
+
+    // We can then play the action, and tell the mixer to update itself on every tick
+    run.play();
+
+    gltf.scene.scale.set(0.025, 0.025, 0.025);
+    scene.add(gltf.scene);
+  },
+  () => {
+    console.log("model is loading");
+  },
+  (err) => {
+    throw Error(err);
   }
 );
 
@@ -155,9 +185,9 @@ const camera = new THREE.PerspectiveCamera(
   35,
   variables.width / variables.height
 );
-camera.position.z = 2;
-camera.position.y = 1;
-camera.position.x = -1;
+camera.position.z = 5;
+camera.position.y = 5;
+camera.position.x = -5;
 scene.add(camera);
 
 const renderer = new THREE.WebGLRenderer({ canvas: canvas });
@@ -179,9 +209,16 @@ window.addEventListener("resize", (e) => {
 const controls = new OrbitControls(camera, canvas);
 
 const clock = new THREE.Clock();
+let prevTime = 0;
 
 const updateFrame = () => {
   const elapsedTime = clock.getElapsedTime();
+  const deltaTime = elapsedTime - prevTime;
+  prevTime = elapsedTime;
+
+  if (mixer) {
+    mixer.update(deltaTime);
+  }
 
   renderer.render(scene, camera);
   controls.update();
