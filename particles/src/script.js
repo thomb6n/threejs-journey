@@ -10,7 +10,7 @@ When you add particles you can often still see the edges
 This is because particles are drawn in the same order as they are created
 WebGL doesn't know which one is in front of the other
 
-One way to fix this is using the alphaTest, which enables WebGL to know when to render a pixel according to it's transparency
+One way to fix this is using the alphaTest, which enables WebGL to know when to render a pixel according to its transparency
 The default value is 0, meaning it will always be rendered, we can try 0.001
 
 When drawing, WebGL tests if what's being drawn is closer than what's already drawn
@@ -25,7 +25,7 @@ WebGL currently draws pixels on top of each other, for better performance
 With blending we can tell WebGL to add the color of the pixel to the pixel already drawn
 
 The particles position array is saved inside an attribute
-You can access it when you want to update each vertex seperately in particlesGeometry.attributes.position.array
+You can access it when you want to update each vertex separately in particlesGeometry.attributes.position.array
 Note that every vertex has 3 values (x, y, z)
 When you update this, you need to set particlesGeometry.attributes.position.needsUpdate to true
 You should avoid this technique because it's bad for performance, it's better to use a custom shader which we will do later

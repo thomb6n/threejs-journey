@@ -79,7 +79,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 camera.position.z = 6;
 
-// We need a camera group to add easing, in order to control the groups position seperately from the camera's scrolling
+// We need a camera group to add easing, in order to control the groups position separately from the camera's scrolling
 const cameraGroup = new THREE.Group();
 cameraGroup.add(camera);
 scene.add(cameraGroup);
