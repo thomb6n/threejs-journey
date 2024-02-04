@@ -32,6 +32,11 @@ import fragmentShader from "./shaders/fragment.glsl";
  * It's possible to send data from the vertex shader known as varying
  *
  * We can use ShaderMaterial (some code provided) or RawShaderMaterial
+ * When using ShaderMaterial, all the variables are already sent except the uniforms and varyings
+ *
+ * Uniforms are useful for getting different results with the same shader, and tweak and animating the values
+ * For textures you use a sampler2D uniform and then make a vec4 with texture2D(texture, uv) to pick the right color for the right position from the texture
+ * For this the uv coordinates are being used, which you pass as a varying from the vertex shader
  */
 
 const variables = {
@@ -43,14 +48,29 @@ const variables = {
 const canvas = document.querySelector("canvas.three");
 const scene = new THREE.Scene();
 
-const cube = new THREE.Mesh(
-  new THREE.PlaneGeometry(1, 1, 32, 32),
+const geometry = new THREE.PlaneGeometry(4, 4, 16, 12);
+const count = geometry.attributes.position.count;
+const randoms = new Float32Array(count);
+for (let i = 0; i < count; i++) {
+  randoms[i] = Math.random();
+}
+geometry.setAttribute("random", new THREE.BufferAttribute(randoms, 1));
+
+const material = new THREE.RawShaderMaterial({
   // When using RawShaderMaterial you provide your own shaders
-  new THREE.RawShaderMaterial({
-    vertexShader,
-    fragmentShader,
-  })
-);
+  vertexShader,
+  fragmentShader,
+  uniforms: {
+    // These always need to be objects
+    frequency: {
+      value: new THREE.Vector2(3, 10),
+    },
+    // We update this in updateFrame
+    time: { value: 0 },
+  },
+});
+
+const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
 const camera = new THREE.PerspectiveCamera(
@@ -82,6 +102,8 @@ const clock = new THREE.Clock();
 
 const updateFrame = () => {
   const elapsedTime = clock.getElapsedTime();
+
+  material.uniforms.time.value = elapsedTime;
 
   controls.update();
   renderer.render(scene, camera);
